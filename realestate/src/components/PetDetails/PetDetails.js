@@ -3,7 +3,7 @@ import { getOne, deletePet } from "../../services/petService";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 export const PetDetails = ({
     onDeletePet
@@ -19,7 +19,7 @@ export const PetDetails = ({
                 setPet(result);
             })
     }, [petId]);
-    
+
     const onClickDeletePet = async() => {
         onDeletePet(petId)
         deletePet(petId,token)
@@ -39,7 +39,7 @@ export const PetDetails = ({
             <p>Description:{pet.description}</p>
             {pet._ownerId === userId && (<div>
                 <button onClick={() => onClickDeletePet()}>Delete</button>
-                <button>Edit</button>
+                <Link to={`/catalog/${pet._id}/edit`}><button>Edit</button></Link>
             </div>)}
 
         </>

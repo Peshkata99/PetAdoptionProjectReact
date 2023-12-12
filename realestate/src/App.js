@@ -14,6 +14,7 @@ import { Header } from './components/Header/Header';
 import { Catalog } from './components/Catalog/Catalog';
 import { PetDetails } from './components/PetDetails/PetDetails';
 import { CreatePet } from './components/CreatePet/CreatePet';
+import { EditPet } from './components/EditPet/EditPet';
 
 function App() {
   const navigate = useNavigate()
@@ -36,6 +37,13 @@ function App() {
     navigate('/catalog')
   }
 
+  const onEditPetSubmit = async (values) => {
+    const result = await petService.editPet(values._id, values,auth.accessToken)
+
+    setPets(state => state.map(p => p._id === values._id ? result : p))
+
+    navigate(`/catalog/${values._id}`);
+  }
   const onDeletePet = async (petId) => {
     setPets(state => state.filter(p => p._id !== petId))
   }
@@ -75,6 +83,7 @@ function App() {
           <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
           <Route path="/catalog" element={<Catalog pets={pets}/>}></Route>
           <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet}/>}></Route>
+          <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit}/>}></Route>
         </Routes>
       </div>
     </AuthContext.Provider>

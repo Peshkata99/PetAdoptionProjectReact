@@ -21,3 +21,7 @@ export const create = async (data, token) => {
 export const deletePet = async (petId,token,data) => {  
     return await request.del(`${baseUrl}/${petId}`,data,token);
 }
+
+export const editPet = async (petId,data,token) => {
+    return await request.put(`${baseUrl}/${petId}`,data,token)
+}
