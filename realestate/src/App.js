@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as petService from './services/petService'
 import * as authService from './services/authService'
+
 import { AuthContext } from './context/AuthContext';
 import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
@@ -35,6 +36,10 @@ function App() {
     navigate('/catalog')
   }
 
+  const onDeletePet = async (petId) => {
+    setPets(state => state.filter(p => p._id !== petId))
+  }
+
   const onLoginSubmit = async (data) => {
     const result = await authService.login(data)
 
@@ -51,7 +56,6 @@ function App() {
     navigate('/catalog')
   }
 
-
   const context = {
     onLoginSubmit,
     onRegisterSubmit,
@@ -64,13 +68,13 @@ function App() {
   return (
     <AuthContext.Provider value={context}>
       <div className="App">
-        <Header />
+        <Header/>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
           <Route path="/catalog" element={<Catalog pets={pets}/>}></Route>
-          <Route path="/catalog/:petId" element={<PetDetails />}></Route>
+          <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet}/>}></Route>
         </Routes>
       </div>
     </AuthContext.Provider>

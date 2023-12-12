@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom'
 
 export const Header = () => {
-    const { isAuthenticated, userEmail } = useContext(AuthContext)
+    const { isAuthenticated, userEmail} = useContext(AuthContext)
     return (
         <nav className="navDiv">
             <Link to="/">FuzzyFriends</Link>
