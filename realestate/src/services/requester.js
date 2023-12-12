@@ -1,4 +1,4 @@
-const request = async (method, url, data) => {
+const request = async (method, url, data, token) => {
     const options = {};
 
     if (method !== 'GET') {
@@ -6,14 +6,16 @@ const request = async (method, url, data) => {
 
         if (data) {
             options.headers = {
-                'content-type': 'application/json',
+                'Content-Type': 'application/json',
             };
 
             options.body = JSON.stringify(data)
         }
     }
     // eventually handle using existing email information error
-
+    if(token){
+        options.headers['X-Authorization'] = token;       
+    }
     const response = await fetch(url, options);
 
     if (response.status === 204) {

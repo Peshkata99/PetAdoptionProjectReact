@@ -1,17 +1,25 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-export const CatalogItem = () => {
-  return (
+import { Link } from 'react-router-dom';
+
+export const CatalogItem = ({
+  name,
+  imageUrl,
+  breed,
+  traits,
+  _id
+}) => {
+return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Img variant="top" src={imageUrl} placeholder={name} />
       <Card.Body>
-        <Card.Title>Pet Name</Card.Title>
-        <Card.Title>Pet Breed</Card.Title>
+        <Card.Title>{name}</Card.Title>
+        <Card.Title>{breed}</Card.Title>
         <Card.Text>
-          Short Pet Summary
+          {traits}
         </Card.Text>
-        <Button variant="primary">Details</Button>
+        <Link to={`/catalog/${_id}`}><Button variant="primary">Details</Button></Link>
       </Card.Body>
     </Card>
   );
