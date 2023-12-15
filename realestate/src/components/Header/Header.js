@@ -11,6 +11,7 @@ export const Header = () => {
             {isAuthenticated && (
                 <div >
                     <Link to="/create-pet">Create Pet</Link>
+                    <Link to="/my-catalog">My Pets</Link>
                     <Link to="/logout">Logout</Link>
                     <span>Hello, {userEmail}</span>
                 </div>)

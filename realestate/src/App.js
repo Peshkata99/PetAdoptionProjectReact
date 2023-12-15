@@ -12,6 +12,7 @@ import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
 import { Header } from './components/Header/Header';
 import { Catalog } from './components/Catalog/Catalog';
+import {MyCatalog} from './components/Catalog/MyCatalog/MyCatalog'
 import { PetDetails } from './components/PetDetails/PetDetails';
 import { CreatePet } from './components/CreatePet/CreatePet';
 import { EditPet } from './components/EditPet/EditPet';
@@ -92,6 +93,7 @@ function App() {
           <Route path="/logout" element={<Logout />}></Route>
           <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
           <Route path="/catalog" element={<Catalog pets={pets}/>}></Route>
+          <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)}/>}></Route>
           <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet}/>}></Route>
           <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit}/>}></Route>
         </Routes>
