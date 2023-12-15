@@ -32,7 +32,7 @@ function App() {
 
   const onCreatePetSubmit = async (data) => {
     const newPet = await petService.create(data, auth.accessToken);
-    console.log(data)
+
     setPets(state => [...state, newPet]);
 
     navigate('/catalog')

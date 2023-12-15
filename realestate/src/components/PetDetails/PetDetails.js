@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { getOne, deletePet } from "../../services/petService";
+
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,32 +9,45 @@ import styles from './PetDetails.module.css';
 import { AddComment } from "./AddComment/AddComment";
 import { Comment } from "./Comment/Comment";
 
+import * as commentService from "../../services/commentService"
+import * as petService from "../../services/petService";
+
 export const PetDetails = ({
     onDeletePet
 }) => {
     const navigate = useNavigate()
     const { petId } = useParams()
     const [pet, setPet] = useState({})
-    const { userId, token, isAuthenticated } = useContext(AuthContext)
+    const [comments, setComments] = useState([])
+    const { userId, token, isAuthenticated,userEmail } = useContext(AuthContext)
     const isOwner = pet._ownerId === userId
 
     useEffect(() => {
-        getOne(petId)
-            .then(result => {
-                setPet(result);
+        Promise.all([
+            petService.getOne(petId),
+        commentService.getAll(petId)])
+        .then(([petData, userComments]) => {
+                setPet(petData);
+                setComments(userComments);
             })
     }, [petId]);
 
     const onClickDeletePet = async () => {
         if (window.confirm('are you sure you want to delete this?')) {
             onDeletePet(petId)
-            deletePet(petId, token)
+            petService.deletePet(petId, token)
 
             navigate('/catalog')
         } else {
 
         }
     }
+
+    const onCommentSubmit = async (values) => {
+        const newComment = await commentService.create(petId, values.comment,userEmail, token);
+
+        setComments(state => [...state, newComment])
+    };
 
     return (
         <article className={styles.details}>
@@ -51,12 +64,11 @@ export const PetDetails = ({
                 <Link to={`/catalog/${pet._id}/edit`}><button>Edit</button></Link>
             </div>)}
             <h3>Comment Section</h3>
-            {!isOwner && isAuthenticated && <AddComment />}
+            {!isOwner && isAuthenticated && <AddComment onCommentSubmit={onCommentSubmit} />}
 
             <div>
-                <Comment />
-                <Comment />
-                <Comment />
+                {comments.map(c => <Comment key={c._id} {...c}/>)}
+                {comments.length === 0 && <p>There are no comments yet.</p>}
             </div>
 
         </article>

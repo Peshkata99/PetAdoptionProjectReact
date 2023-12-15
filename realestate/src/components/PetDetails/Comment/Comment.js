@@ -1,8 +1,11 @@
-export const Comment = () => {
+export const Comment = ({
+    comment,
+    authorEmail
+}) => {
     return (
         <div>
-            <h4>Author</h4>
-            <p>Insert comment here</p>
+            <h4>{authorEmail}</h4>
+            <p>{comment}</p>
         </div>
     );
 }
