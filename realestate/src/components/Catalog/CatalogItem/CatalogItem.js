@@ -12,7 +12,7 @@ export const CatalogItem = ({
 }) => {
 return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={imageUrl} placeholder={name} />
+      <Card.Img variant="top" src={imageUrl} alt={name} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Card.Title>{breed}</Card.Title>

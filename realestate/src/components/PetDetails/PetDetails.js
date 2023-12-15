@@ -3,7 +3,11 @@ import { getOne, deletePet } from "../../services/petService";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import styles from './PetDetails.module.css';
+import { AddComment } from "./AddComment/AddComment";
+import { Comment } from "./Comment/Comment";
 
 export const PetDetails = ({
     onDeletePet
@@ -11,7 +15,8 @@ export const PetDetails = ({
     const navigate = useNavigate()
     const { petId } = useParams()
     const [pet, setPet] = useState({})
-    const { userId, token } = useContext(AuthContext)
+    const { userId, token, isAuthenticated } = useContext(AuthContext)
+    const isOwner = pet._ownerId === userId
 
     useEffect(() => {
         getOne(petId)
@@ -20,28 +25,40 @@ export const PetDetails = ({
             })
     }, [petId]);
 
-    const onClickDeletePet = async() => {
-        onDeletePet(petId)
-        deletePet(petId,token)
+    const onClickDeletePet = async () => {
+        if (window.confirm('are you sure you want to delete this?')) {
+            onDeletePet(petId)
+            deletePet(petId, token)
 
-        navigate('/catalog')
-    } 
+            navigate('/catalog')
+        } else {
+
+        }
+    }
 
     return (
-        <>
+        <article className={styles.details}>
             <h1>Pet Details</h1>
-            <img src={pet.imageUrl}></img>
+            <img className={styles.detailsImg} src={pet.imageUrl} alt={pet.name}></img>
             <p>Name:{pet.name}</p>
             <p>Species:{pet.species}</p>
             <p>Breed:{pet.breed}</p>
             <p>CoatDetails:{pet.coatDetails}</p>
             <p>Adoption Fee:{pet.adoptionFee}</p>
             <p>Description:{pet.description}</p>
-            {pet._ownerId === userId && (<div>
+            {isOwner && (<div>
                 <button onClick={() => onClickDeletePet()}>Delete</button>
                 <Link to={`/catalog/${pet._id}/edit`}><button>Edit</button></Link>
             </div>)}
+            <h3>Comment Section</h3>
+            {!isOwner && isAuthenticated && <AddComment />}
 
-        </>
+            <div>
+                <Comment />
+                <Comment />
+                <Comment />
+            </div>
+
+        </article>
     );
 }

@@ -8,7 +8,7 @@ export const Catalog = ({
         <h1>Pet Catalog</h1>
         <div>
             {pets.map(p => <CatalogItem key={p._id} {...p} />)}
-            {pets?.length === 0 && <p>There are no pets available yet.</p>}
+            {pets?.length === 0 && (<p>There are no pets available yet.</p>)}
         </div>
 
     </>

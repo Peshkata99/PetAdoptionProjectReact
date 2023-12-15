@@ -15,6 +15,7 @@ import { Catalog } from './components/Catalog/Catalog';
 import { PetDetails } from './components/PetDetails/PetDetails';
 import { CreatePet } from './components/CreatePet/CreatePet';
 import { EditPet } from './components/EditPet/EditPet';
+import { Logout } from './components/Logout/Logout';
 
 function App() {
   const navigate = useNavigate()
@@ -45,6 +46,7 @@ function App() {
     navigate(`/catalog/${values._id}`);
   }
   const onDeletePet = async (petId) => {
+    
     setPets(state => state.filter(p => p._id !== petId))
   }
 
@@ -64,9 +66,16 @@ function App() {
     navigate('/catalog')
   }
 
+  const onLogout = async () => {
+    await authService.logout(auth.accessToken);
+
+    setAuth({});
+  }
+
   const context = {
     onLoginSubmit,
     onRegisterSubmit,
+    onLogout,
     userId: auth._id,
     token: auth.accessToken,
     userEmail: auth.email,
@@ -80,6 +89,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/logout" element={<Logout />}></Route>
           <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
           <Route path="/catalog" element={<Catalog pets={pets}/>}></Route>
           <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet}/>}></Route>

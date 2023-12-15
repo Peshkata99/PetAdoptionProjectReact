@@ -11,7 +11,8 @@ const request = async (method, url, data,token ) => {
             options.body = JSON.stringify(data)
         }
     }
-    // eventually handle using existing email information error
+    // eventually handle using existing email information error to register
+    // handle no collection at start error
     if(token){
         options.headers = {
             ...options.headers,
