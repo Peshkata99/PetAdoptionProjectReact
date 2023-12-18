@@ -1,0 +1,7 @@
+.title{
+    text-align: center;
+}
+.catalogDiv{
+    display: inline-flex;
+    flex-wrap: wrap;
+}

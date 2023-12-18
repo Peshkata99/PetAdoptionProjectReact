@@ -33,7 +33,7 @@ export const PetDetails = ({
     }, [petId]);
 
     const onClickDeletePet = async () => {
-        if (window.confirm('are you sure you want to delete this?')) {
+        if (window.confirm('are you sure you want to delete this pet?')) {
             onDeletePet(petId)
             petService.deletePet(petId, token)
 
@@ -48,6 +48,14 @@ export const PetDetails = ({
 
         setComments(state => [...state, newComment])
     };
+    const onClickDeleteComment = async (commentId) => {
+        if(window.confirm('are you sure you want to delete this comment?')){
+            commentService.deleteComment(commentId,token)
+            setComments(state => state.filter(c => c._id !== commentId))
+        } else{
+
+        }
+    }
 
     return (
         <article className={styles.details}>
@@ -67,7 +75,7 @@ export const PetDetails = ({
             {!isOwner && isAuthenticated && <AddComment onCommentSubmit={onCommentSubmit} />}
 
             <div>
-                {comments.map(c => <Comment key={c._id} {...c}/>)}
+                {comments.map(c => <Comment onClickDeleteComment={onClickDeleteComment} key={c._id} {...c}/>)}
                 {comments.length === 0 && <p>There are no comments yet.</p>}
             </div>
 

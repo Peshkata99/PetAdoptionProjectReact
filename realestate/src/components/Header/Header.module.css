@@ -1,0 +1,12 @@
+.navDiv {
+    display:inline-flex;
+}
+.navHome{
+    text-decoration: none;
+    color: black;
+}
+.navElement{
+    text-decoration: none;
+    color: black;
+    margin-left: 10px;
+}

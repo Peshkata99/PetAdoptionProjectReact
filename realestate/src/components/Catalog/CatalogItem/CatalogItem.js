@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 import { Link } from 'react-router-dom';
+import styles from './CatalogItem.module.css'
 
 export const CatalogItem = ({
   name,
@@ -11,8 +12,8 @@ export const CatalogItem = ({
   _id
 }) => {
 return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={imageUrl} alt={name} />
+    <Card className={styles.petCard} style={{ width: '18rem' }}>
+      <Card.Img className={styles.imgCard} variant="top" src={imageUrl} alt={name} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Card.Title>{breed}</Card.Title>

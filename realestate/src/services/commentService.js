@@ -17,3 +17,7 @@ export const create = async (petId, comment, authorEmail, token) => {
 
     return result;
 };
+
+export const deleteComment = async(commentId,token,data) => {
+    return await request.del(`${baseUrl}/${commentId}`,data,token)
+}
