@@ -24,7 +24,6 @@ export const EditPet = ({
         description: '',
 
     }, onEditPetSubmit)
-
     useEffect(() => {
         getOne(petId)
             .then(result => {
@@ -33,7 +32,7 @@ export const EditPet = ({
     }, [petId]);
     return (
         <div>
-            <h1>Pet submission form</h1>
+            <h1>Pet edit form</h1>
             <Form method="POST" onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="formPetName">
                     <Form.Label>Name</Form.Label>

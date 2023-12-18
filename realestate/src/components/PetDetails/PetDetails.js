@@ -65,7 +65,7 @@ export const PetDetails = ({
             <p>Species: {pet.species}</p>
             <p>Breed: {pet.breed}</p>
             <p>CoatDetails: {pet.coatDetails}</p>
-            <p>Adoption Fee: {pet.adoptionFee}</p>
+            <p>Adoption Fee: {pet.adoptionFee} $</p>
             <p>Description: {pet.description}</p>
             {isOwner && (<div>
                 <button onClick={() => onClickDeletePet()}>Delete</button>

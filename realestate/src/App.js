@@ -48,7 +48,6 @@ function App() {
     navigate(`/catalog/${values._id}`);
   }
   const onDeletePet = async (petId) => {
-
     setPets(state => state.filter(p => p._id !== petId))
   }
 
@@ -100,14 +99,15 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="/logout" element={<Logout />}></Route>
+          <Route path="/catalog" element={<Catalog pets={pets} />}></Route>
+          <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet} />}></Route>
+
           <Route element={<RouteGuard />}>
             <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
             <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)} />}></Route>
             <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit} />}></Route>
+            <Route path="/logout" element={<Logout />}></Route>
           </Route>
-          <Route path="/catalog" element={<Catalog pets={pets} />}></Route>
-          <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet} />}></Route>
           
         </Routes>
       </div>
