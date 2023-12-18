@@ -12,7 +12,7 @@ import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
 import { Header } from './components/Header/Header';
 import { Catalog } from './components/Catalog/Catalog';
-import {MyCatalog} from './components/Catalog/MyCatalog/MyCatalog'
+import { MyCatalog } from './components/Catalog/MyCatalog/MyCatalog'
 import { PetDetails } from './components/PetDetails/PetDetails';
 import { CreatePet } from './components/CreatePet/CreatePet';
 import { EditPet } from './components/EditPet/EditPet';
@@ -26,9 +26,9 @@ function App() {
   useEffect(() => {
     petService.getAll()
       .then(result => {
-         setPets(result)
-       })
-   }, [])
+        setPets(result)
+      })
+  }, [])
 
 
   const onCreatePetSubmit = async (data) => {
@@ -40,31 +40,41 @@ function App() {
   }
 
   const onEditPetSubmit = async (values) => {
-    const result = await petService.editPet(values._id, values,auth.accessToken)
+    const result = await petService.editPet(values._id, values, auth.accessToken)
 
     setPets(state => state.map(p => p._id === values._id ? result : p))
 
     navigate(`/catalog/${values._id}`);
   }
   const onDeletePet = async (petId) => {
-    
+
     setPets(state => state.filter(p => p._id !== petId))
   }
 
   const onLoginSubmit = async (data) => {
     const result = await authService.login(data)
 
-    setAuth(result)
+    if (result.code === 403) {
+      alert(result.message)
+    } else {
+      setAuth(result)
 
-    navigate('/catalog')
+      navigate('/catalog')
+    }
+
+
   }
 
   const onRegisterSubmit = async (data) => {
     const result = await authService.register(data)
+    if (result.code === 409 || result.code === 400) {
+      alert(result.message)
+    } else {
+      setAuth(result)
 
-    setAuth(result)
+      navigate('/catalog')
+    }
 
-    navigate('/catalog')
   }
 
   const onLogout = async () => {
@@ -86,16 +96,16 @@ function App() {
   return (
     <AuthContext.Provider value={context}>
       <div className="App">
-        <Header/>
+        <Header />
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/logout" element={<Logout />}></Route>
           <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
-          <Route path="/catalog" element={<Catalog pets={pets}/>}></Route>
-          <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)}/>}></Route>
-          <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet}/>}></Route>
-          <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit}/>}></Route>
+          <Route path="/catalog" element={<Catalog pets={pets} />}></Route>
+          <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)} />}></Route>
+          <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet} />}></Route>
+          <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit} />}></Route>
         </Routes>
       </div>
     </AuthContext.Provider>

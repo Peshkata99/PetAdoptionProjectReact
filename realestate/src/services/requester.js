@@ -1,3 +1,4 @@
+
 const request = async (method, url, data,token ) => {
     const options = {};  
     if (method !== 'GET') {
@@ -11,7 +12,6 @@ const request = async (method, url, data,token ) => {
             options.body = JSON.stringify(data)
         }
     }
-    // eventually handle using existing email information error to register
     // handle no collection at start error
     if(token){
         options.headers = {
@@ -24,15 +24,13 @@ const request = async (method, url, data,token ) => {
     if (response.status === 204) {
         return {};
     }
-
+    if(response.status === 404){
+        return {};
+    }
 
     const result = await response.json();
 
-    if(!response.ok){
-        throw result;
-    }
-    return result;
-
+    return result;   
 }
 
 export const get = request.bind(null, 'GET');
