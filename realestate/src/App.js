@@ -17,6 +17,7 @@ import { PetDetails } from './components/PetDetails/PetDetails';
 import { CreatePet } from './components/CreatePet/CreatePet';
 import { EditPet } from './components/EditPet/EditPet';
 import { Logout } from './components/Logout/Logout';
+import { RouteGuard } from './common/RouteGuard';
 
 function App() {
   const navigate = useNavigate()
@@ -62,7 +63,6 @@ function App() {
       navigate('/catalog')
     }
 
-
   }
 
   const onRegisterSubmit = async (data) => {
@@ -101,11 +101,14 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/logout" element={<Logout />}></Route>
-          <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
+          <Route element={<RouteGuard />}>
+            <Route path="/create-pet" element={<CreatePet onCreatePetSubmit={onCreatePetSubmit} />}></Route>
+            <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)} />}></Route>
+            <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit} />}></Route>
+          </Route>
           <Route path="/catalog" element={<Catalog pets={pets} />}></Route>
-          <Route path="/my-catalog" element={<MyCatalog pets={pets.filter(p => p._ownerId === auth._id)} />}></Route>
           <Route path="/catalog/:petId" element={<PetDetails onDeletePet={onDeletePet} />}></Route>
-          <Route path="/catalog/:petId/edit" element={<EditPet onEditPetSubmit={onEditPetSubmit} />}></Route>
+          
         </Routes>
       </div>
     </AuthContext.Provider>

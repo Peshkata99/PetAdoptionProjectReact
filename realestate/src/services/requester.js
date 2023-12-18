@@ -27,10 +27,18 @@ const request = async (method, url, data,token ) => {
     if(response.status === 404){
         return {};
     }
+    if(response.status === 403 || response.status === 409 || response.status === 400){
+        return await response.json()
+    }
+
 
     const result = await response.json();
 
-    return result;   
+    if(!response.ok){
+        throw result;
+    }
+    return result;
+    
 }
 
 export const get = request.bind(null, 'GET');

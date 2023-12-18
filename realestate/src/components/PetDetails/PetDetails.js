@@ -61,12 +61,12 @@ export const PetDetails = ({
         <article className={styles.details}>
             <h1>Pet Details</h1>
             <img className={styles.detailsImg} src={pet.imageUrl} alt={pet.name}></img>
-            <p>Name:{pet.name}</p>
-            <p>Species:{pet.species}</p>
-            <p>Breed:{pet.breed}</p>
-            <p>CoatDetails:{pet.coatDetails}</p>
-            <p>Adoption Fee:{pet.adoptionFee}</p>
-            <p>Description:{pet.description}</p>
+            <p>Name: {pet.name}</p>
+            <p>Species: {pet.species}</p>
+            <p>Breed: {pet.breed}</p>
+            <p>CoatDetails: {pet.coatDetails}</p>
+            <p>Adoption Fee: {pet.adoptionFee}</p>
+            <p>Description: {pet.description}</p>
             {isOwner && (<div>
                 <button onClick={() => onClickDeletePet()}>Delete</button>
                 <Link to={`/catalog/${pet._id}/edit`}><button>Edit</button></Link>
